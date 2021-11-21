@@ -8,8 +8,9 @@ ActiveRecord::Schema.define do
     t.references :subscriber, polymorphic: true, index: false
     t.string :list
     t.timestamps null: false
+    t.datetime :deleted_at
   end
-  add_index :mailkick_subscriptions, [:subscriber_type, :subscriber_id, :list], unique: true, name: "index_mailkick_subscriptions_on_subscriber_and_list"
+  add_index :mailkick_subscriptions, [:subscriber_type, :subscriber_id, :list], unique: true, name: "index_active_mailkick_subscriptions_on_subscriber_and_list", where: "deleted_at IS NULL"
 
   create_table :mailkick_opt_outs do |t|
     t.string :email

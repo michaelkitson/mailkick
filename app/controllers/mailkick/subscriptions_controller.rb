@@ -8,7 +8,7 @@ module Mailkick
     end
 
     def unsubscribe
-      subscription.delete_all
+      subscription.deactivate_all
 
       Mailkick::Legacy.opt_out(legacy_options) if Mailkick::Legacy.opt_outs?
 
@@ -32,7 +32,7 @@ module Mailkick
     end
 
     def subscription
-      Mailkick::Subscription.where(
+      Mailkick::Subscription.active.where(
         subscriber_id: @subscriber_id,
         subscriber_type: @subscriber_type,
         list: @list
